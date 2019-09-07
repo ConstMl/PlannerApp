@@ -58,6 +58,7 @@ namespace PlannerApp
                     case 6: // Удаление всех заданий до текущей даты.
                         {
                             Console.Clear();
+                            plannerTasks.DeletePastTask();
                             Menu.WaitKey();
                             break;
                         }

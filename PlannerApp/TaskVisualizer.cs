@@ -181,6 +181,33 @@ namespace PlannerApp
             Console.ReadKey();
         }
 
+        public void DeletePastTask()
+        {
+            Console.Clear();
+            switch (Menu.PrintMenu(ConstVariable.optionsForDeletePastTask, "Какие задания до текущей даты удалить?"))
+            {
+                case 1: // выполненные
+                    {
+                        tasks.DeletePastTask(DeleteFlagsEnum.DONE);
+                        Console.WriteLine("Все выполненные задания до текущей даты удалены.");
+                        break;
+                    }
+                case 2: // невыполненные
+                    {
+                        tasks.DeletePastTask(DeleteFlagsEnum.NOT_DONE);
+                        Console.WriteLine("Все невыполненные задания до текущей даты удалены.");
+                        break;
+                    }
+                case 3: // все
+                    {
+                        tasks.DeletePastTask(DeleteFlagsEnum.ALL);
+                        Console.WriteLine("Все задания до текущей даты удалены.");
+                        break;
+                    }
+                default: break;
+            }
+        }
+
         public void SaveToFile()
         {
             Console.Write("Введите имя файла для сохранения: ");

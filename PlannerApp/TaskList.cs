@@ -70,6 +70,44 @@ namespace PlannerApp
             tasks.Remove(key);
         }
 
+        public void DeleteAll()
+        {
+            tasks.Clear();
+        }
+
+        public void DeletePastTask(DeleteFlagsEnum flag)
+        {
+            switch (flag)
+            {
+                case DeleteFlagsEnum.ALL:
+                    {
+
+                        foreach (var keyValue in tasks)
+                            if (keyValue.Key < DateTime.Now.Date)
+                                tasks.Remove(keyValue.Key);
+                        break;
+                    }
+                case DeleteFlagsEnum.DONE:
+                    {
+                        foreach (var keyValue in tasks)
+                            if ((keyValue.Key < DateTime.Now.Date) && keyValue.Value.done)
+                                tasks.Remove(keyValue.Key);
+                        break;
+                    }
+                case DeleteFlagsEnum.NOT_DONE:
+                    {
+                        foreach (var keyValue in tasks)
+                            if ((keyValue.Key < DateTime.Now.Date) && !keyValue.Value.done)
+                                tasks.Remove(keyValue.Key);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
         public void ReadAndDeserialize(string path)
         {
             tasks.Clear();
