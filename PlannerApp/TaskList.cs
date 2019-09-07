@@ -32,16 +32,13 @@ namespace PlannerApp
             return tasks;
         }
 
-        public TaskData? Search(DateTime date)
+        public TaskData? Search(DateTime key)
         {
-            foreach (var task in tasks)
+            if (!tasks.ContainsKey(key))
             {
-                if (date == task.Value.date)
-                {
-                    return task.Value;
-                }
+                return null;
             }
-            return null;
+            return tasks[key];
         }
 
         public void UpdateDataTime(DateTime key, DateTime newDateTime)
@@ -58,6 +55,14 @@ namespace PlannerApp
             tempTask.name = newTaskName;
             tasks[key] = tempTask;
             //tasks[key].name = newTaskName; // ?..
+        }
+
+        public void SetDone(DateTime key, bool done)
+        {
+            var tempTask = tasks[key];
+            tempTask.done = done;
+            tasks[key] = tempTask;
+            //tasks[key].done = done; // ?..
         }
 
         public void Delete(DateTime key)

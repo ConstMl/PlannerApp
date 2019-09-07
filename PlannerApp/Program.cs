@@ -6,9 +6,7 @@ namespace PlannerApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             var plannerTasks = new TaskVisualizer();
-
             while (true)
             {
                 Console.Clear();
@@ -24,7 +22,11 @@ namespace PlannerApp
                     case 2: // Поиск заданий по дате (только дата).
                         {
                             Console.Clear();
-                            plannerTasks.SearchTaskByDate(plannerTasks.GetDateTime());
+                            var key = plannerTasks.GetDateTime();
+                            if (key != null)
+                            {
+                                plannerTasks.SearchTaskByDate((DateTime)key);
+                            }
                             Menu.WaitKey();
                             break;
                         }
@@ -45,6 +47,11 @@ namespace PlannerApp
                     case 5: // Поиск конкретного задания (дата и время).
                         {
                             Console.Clear();
+                            var key = plannerTasks.GetDateTime();
+                            if (key != null)
+                            {
+                                plannerTasks.SearchAndActionWhisTask((DateTime)key);
+                            }
                             Menu.WaitKey();
                             break;
                         }

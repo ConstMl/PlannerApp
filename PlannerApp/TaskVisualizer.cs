@@ -17,21 +17,32 @@ namespace PlannerApp
                 Console.WriteLine("Дата введена неверно.");
                 return null;
             }
-            if (newDate < DateTime.Now)
+            return newDate;
+        }
+
+        public DateTime? GetDateTimeAU()
+        {
+            var newDateTime = GetDateTime();
+            if (newDateTime == null)
+            {
+                return null;
+            }
+            if (newDateTime < DateTime.Now)
             {
                 Console.WriteLine("Задание не может быть назначено на прошедшую дату.");
                 return null;
             }
-            if (tasks.ReadAll().ContainsKey(newDate))
+            if (tasks.ReadAll().ContainsKey((DateTime)newDateTime))
             {
                 Console.WriteLine("На эту дату уже запланировано задание, добавление невозможно.");
                 return null;
             }
-            return newDate;
+            return newDateTime;
         }
+
         public void Add()
         {
-            var newDate = GetDateTime();
+            var newDate = GetDateTimeAU();
             if (newDate == null)
             {
                 return;
@@ -73,24 +84,10 @@ namespace PlannerApp
             }
         }
 
-        public void Update()
+        public void SearchTaskByDate(DateTime searchData)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SearchTaskByDate(DateTime? searchData)
-        {
-            if (searchData == null)
-            {
-                return;
-            }
             int count = 0;
-            Console.WriteLine($"Задания на {searchData?.ToLongDateString()} :");
+            Console.WriteLine($"Задания на {searchData.ToLongDateString()} :");
             foreach (var keyValue in tasks.ReadAll())
             {
                 if (keyValue.Key.Date == searchData)
@@ -102,6 +99,86 @@ namespace PlannerApp
                 }
             }
             Console.WriteLine($"Всего заданий -  {count}.");
+        }
+
+        public void SearchAndActionWhisTask(DateTime key)
+        {
+            if (tasks.Search(key) == null)
+            {
+                Console.WriteLine("Такого задания нет.");
+                return;
+            }
+            Console.Clear();
+            var searchTask = (TaskData)tasks.Search(key);
+            Console.WriteLine($"----- {key.ToLongDateString()}");
+            Console.ForegroundColor = searchTask.done ? ConsoleColor.Green : ConsoleColor.Red;
+            Console.WriteLine($"    > {key.ToShortTimeString()} - {searchTask.name}");
+            Console.ResetColor();
+            Console.WriteLine("Для перехода к действиям намите любую клавишу...");
+            Console.ReadKey();
+            Console.Clear();
+            switch (Menu.PrintMenu(ConstVariable.actionsWithTask, "Для выбора действия нажмите Enter"))
+            {
+                case 1: // Изменение статуса на "выполнено".
+                    {
+                        if (searchTask.done)
+                        {
+                            Console.WriteLine("Задание уже выполнено. Статус не может быть изменен.");
+                        }
+                        else
+                        {
+                            tasks.SetDone(key, true);
+                            Console.WriteLine("Статус изменен.");
+                        }
+                        break;
+                    }
+                case 2: // Перенос задания.
+                    {
+                        Console.WriteLine($"Дата и время старого задания: {searchTask.date}");
+                        var newDateTime = GetDateTimeAU();
+                        if (newDateTime == null)
+                        {
+                            Console.WriteLine("Произошла ошибка.");
+                        }
+                        else
+                        {
+                            tasks.UpdateDataTime(key, (DateTime)newDateTime);
+                            Console.WriteLine("Изменения приняты.");
+                        }
+                        break;
+                    }
+                case 3: // Изменение задания.
+                    {
+                        Console.WriteLine($"Старое задание: {searchTask.name}");
+                        Console.Write("Введите изменения: ");
+                        string newName = Convert.ToString(Console.ReadLine());
+                        tasks.UpdateTaskName(key, newName);
+                        Console.WriteLine("Изменения приняты.");
+                        break;
+                    }
+                case 4: // Удаление задания.
+                    {
+                        Console.Clear();
+                        switch (Menu.PrintMenu(ConstVariable.optionYesNo, "Вы действительно хотите удалить задание?"))
+                        {
+                            case 1:
+                                {
+                                    tasks.Delete(key);
+                                    Console.WriteLine("Задание удалено.");
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    Console.WriteLine("Удаление отменено.");
+                                    break;
+                                }
+                            default: break;
+                        }
+                        break;
+                    }
+                default: break;
+            }
+            Console.ReadKey();
         }
 
         public void SaveToFile()
