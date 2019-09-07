@@ -7,6 +7,7 @@ namespace PlannerApp
 {
     class TaskList
     {
+        
         private SortedDictionary<DateTime, TaskData> tasks;
 
         private static TaskList instance;

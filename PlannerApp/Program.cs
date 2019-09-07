@@ -7,10 +7,105 @@ namespace PlannerApp
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            //var plannerTasks = new TaskVisualizer();
-            //plannerTasks.Create();
+            var plannerTasks = new TaskVisualizer();
 
-            Console.ReadKey();
+            while (true)
+            {
+                Console.Clear();
+                switch (Menu.PrintMenu(ConstVariable.mainMenuItem, "Для выбора пункта меню нажмите Enter"))
+                {
+                    case 1: // Просмотр всех заданий.
+                        {
+                            Console.Clear();
+                            plannerTasks.Print();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 2: // Поиск заданий по дате (только дата).
+                        {
+                            Console.Clear();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 3: // Задания на сегодня.
+                        {
+                            Console.Clear();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 4: // Добавление задания.
+                        {
+                            Console.Clear();
+                            plannerTasks.Add();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 5: // Поиск конкретного задания (дата и время).
+                        {
+                            Console.Clear();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 6: // Удаление всех заданий до текущей даты.
+                        {
+                            Console.Clear();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 7: // Загрузка.
+                        {
+                            Console.Clear();
+                            switch (Menu.PrintMenu(ConstVariable.optionYesNo, "Внимание, загрузка файла очистит текущий список дел. Продолжить?"))
+                            {
+                                case 1:
+                                    {
+                                        plannerTasks.LoadFromFile();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 8: // Сохранение.
+                        {
+                            Console.Clear();
+                            plannerTasks.SaveToFile();
+                            Menu.WaitKey();
+                            break;
+                        }
+                    case 0: // Выход.
+                        {
+                            Console.Clear();
+                            switch (Menu.PrintMenu(ConstVariable.optionYesNo, "Вы действительно хотите выйти?"))
+                            {
+                                case 1:
+                                    {
+                                        Console.ReadKey();
+                                        return;
+                                    }
+                                case 2:
+                                    {
+                                        break;
+                                    }
+                                default: break;
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+                
+            }
         }
     }
 }

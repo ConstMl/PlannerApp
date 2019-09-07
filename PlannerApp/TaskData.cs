@@ -2,6 +2,7 @@
 
 namespace PlannerApp
 {
+    [Serializable]
     public struct TaskData
     {
         public DateTime date;

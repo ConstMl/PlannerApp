@@ -6,7 +6,7 @@ namespace PlannerApp
     class TaskVisualizer
     {
         private TaskList tasks = TaskList.GetInstance();
-        public void Create()
+        public void Add()
         {
             DateTime newDate;
             Console.Write("Введите дату и время (год.месяц.число часы:минуты) : ");
@@ -35,9 +35,33 @@ namespace PlannerApp
             tasks.Create(newTaskData);
         }
 
-        public void Read()
+        public void Print()
         {
-            throw new NotImplementedException();
+            if (tasks.ReadAll().Count == 0)
+            {
+                Console.WriteLine("Списко заданий пуст.");
+                return;
+            }
+            Console.WriteLine("Задания за весь период:");
+            DateTime currentDate = new DateTime(0001, 01, 01);
+            bool checkPrintData = false;
+            foreach (var keyValue in tasks.ReadAll())
+            {
+                if (currentDate != keyValue.Key.Date)
+                {
+                    currentDate = keyValue.Key.Date;
+                    checkPrintData = false;
+                    Console.WriteLine();
+                }
+                if ((!checkPrintData) && (currentDate == keyValue.Key.Date))
+                {
+                    Console.WriteLine($"----- {keyValue.Key.ToLongDateString()}");
+                    checkPrintData = true;
+                }
+                Console.ForegroundColor = keyValue.Value.done ? ConsoleColor.Green : ConsoleColor.Red;
+                Console.WriteLine($"    > {keyValue.Key.ToShortTimeString()} - {keyValue.Value.name}");
+                Console.ResetColor();
+            }
         }
 
         public void Update()
@@ -61,11 +85,9 @@ namespace PlannerApp
         public void LoadFromFile()
         {
             Console.Write("Введите имя файла: ");
-            /*
-             * ДОПИСАТЬ
-             * 
-             */
-
+            string fileName = Console.ReadLine();
+            tasks.ReadAndDeserialize(fileName);
+            Console.WriteLine("Файл загружен.");
         }
     }
 }
