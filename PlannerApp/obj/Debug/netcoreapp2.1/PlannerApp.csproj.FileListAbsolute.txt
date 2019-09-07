@@ -1,0 +1,11 @@
+D:\SolarLab\PlannerApp\PlannerApp\bin\Debug\netcoreapp2.1\PlannerApp.deps.json
+D:\SolarLab\PlannerApp\PlannerApp\bin\Debug\netcoreapp2.1\PlannerApp.runtimeconfig.json
+D:\SolarLab\PlannerApp\PlannerApp\bin\Debug\netcoreapp2.1\PlannerApp.runtimeconfig.dev.json
+D:\SolarLab\PlannerApp\PlannerApp\bin\Debug\netcoreapp2.1\PlannerApp.dll
+D:\SolarLab\PlannerApp\PlannerApp\bin\Debug\netcoreapp2.1\PlannerApp.pdb
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.csprojAssemblyReference.cache
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.csproj.CoreCompileInputs.cache
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.AssemblyInfoInputs.cache
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.AssemblyInfo.cs
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.dll
+D:\SolarLab\PlannerApp\PlannerApp\obj\Debug\netcoreapp2.1\PlannerApp.pdb
