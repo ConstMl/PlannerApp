@@ -44,14 +44,25 @@ namespace PlannerApp
             return null;
         }
 
-        public void Update()
+        public void UpdateDataTime(DateTime key, DateTime newDateTime)
         {
-            throw new NotImplementedException();
+            var tempTask = tasks[key];
+            tempTask.date = newDateTime;
+            tasks.Remove(key);
+            Create(tempTask);
         }
 
-        public void Delete()
+        public void UpdateTaskName(DateTime key, string newTaskName)
         {
-            throw new NotImplementedException();
+            var tempTask = tasks[key];
+            tempTask.name = newTaskName;
+            tasks[key] = tempTask;
+            //tasks[key].name = newTaskName; // ?..
+        }
+
+        public void Delete(DateTime key)
+        {
+            tasks.Remove(key);
         }
 
         public void ReadAndDeserialize(string path)
