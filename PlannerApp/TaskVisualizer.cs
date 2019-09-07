@@ -6,7 +6,8 @@ namespace PlannerApp
     class TaskVisualizer
     {
         private TaskList tasks = TaskList.GetInstance();
-        public void Add()
+
+        public DateTime? GetDateTime()
         {
             DateTime newDate;
             Console.Write("Введите дату и время (год.месяц.число часы:минуты) : ");
@@ -14,23 +15,31 @@ namespace PlannerApp
             if (!DateTime.TryParse(date, out newDate))
             {
                 Console.WriteLine("Дата введена неверно.");
-                return;
+                return null;
             }
             if (newDate < DateTime.Now)
             {
                 Console.WriteLine("Задание не может быть назначено на прошедшую дату.");
-                return;
+                return null;
             }
             if (tasks.ReadAll().ContainsKey(newDate))
             {
                 Console.WriteLine("На эту дату уже запланировано задание, добавление невозможно.");
+                return null;
+            }
+            return newDate;
+        }
+        public void Add()
+        {
+            var newDate = GetDateTime();
+            if (newDate == null)
+            {
                 return;
             }
-
             TaskData newTaskData = new TaskData();
             Console.Write("Введите текст задания: ");
             newTaskData.name = Console.ReadLine();
-            newTaskData.date = newDate;
+            newTaskData.date = (DateTime)newDate;
 
             tasks.Create(newTaskData);
         }
@@ -72,6 +81,27 @@ namespace PlannerApp
         public void Delete()
         {
             throw new NotImplementedException();
+        }
+
+        public void SearchTaskByDate(DateTime? searchData)
+        {
+            if (searchData == null)
+            {
+                return;
+            }
+            int count = 0;
+            Console.WriteLine($"Задания на {searchData?.ToLongDateString()} :");
+            foreach (var keyValue in tasks.ReadAll())
+            {
+                if (keyValue.Key.Date == searchData)
+                {
+                    Console.ForegroundColor = keyValue.Value.done ? ConsoleColor.Green : ConsoleColor.Red;
+                    Console.WriteLine($"    > {keyValue.Key.ToShortTimeString()} - {keyValue.Value.name}");
+                    Console.ResetColor();
+                    count++;
+                }
+            }
+            Console.WriteLine($"Всего заданий -  {count}.");
         }
 
         public void SaveToFile()

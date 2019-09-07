@@ -24,12 +24,14 @@ namespace PlannerApp
                     case 2: // Поиск заданий по дате (только дата).
                         {
                             Console.Clear();
+                            plannerTasks.SearchTaskByDate(plannerTasks.GetDateTime());
                             Menu.WaitKey();
                             break;
                         }
                     case 3: // Задания на сегодня.
                         {
                             Console.Clear();
+                            plannerTasks.SearchTaskByDate(DateTime.Now.Date);
                             Menu.WaitKey();
                             break;
                         }
@@ -88,7 +90,7 @@ namespace PlannerApp
                             {
                                 case 1:
                                     {
-                                        Console.ReadKey();
+                                        Menu.WaitKey();
                                         return;
                                     }
                                 case 2:
